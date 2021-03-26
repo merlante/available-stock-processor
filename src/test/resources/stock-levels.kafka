@@ -1,0 +1,13 @@
+PRODUCER keyed-json-message
+topic: stock-levels
+key: {"productSku":"SKU-{{random.number(5)}}"}
+value-format: integer
+{{random.number(3)+1}}
+
+###
+
+PRODUCER keyed-message
+topic: stock-levels
+key: {"productSku":"SKU-3"}
+value-format: integer
+75

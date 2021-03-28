@@ -8,6 +8,32 @@ value-format: integer
 
 PRODUCER keyed-message
 topic: stock-levels
-key: {"productSku":"SKU-3"}
+key: {"productSku":"SKU-50"}
 value-format: integer
-75
+150
+
+###
+
+PRODUCER non-keyed-json-message
+topic: orders
+{
+    "orderCode":"ORDER-33",
+    "orderEntries":[
+        {"product":{"productSku":"SKU-50"},"quantity":1},
+        {"product":{"productSku":"SKU-51"},"quantity":5},
+        {"product":{"productSku":"SKU-52"},"quantity":10}
+    ]
+}
+
+###
+
+PRODUCER non-keyed-json-message
+topic: shipments
+{
+    "orderCode":"ORDER-33",
+    "orderEntries":[
+        {"product":{"productSku":"SKU-50"},"quantity":1},
+        {"product":{"productSku":"SKU-51"},"quantity":4},
+        {"product":{"productSku":"SKU-52"},"quantity":9}
+    ]
+}

@@ -5,7 +5,6 @@ import javax.enterprise.inject.Produces;
 
 import io.quarkus.kafka.client.serialization.JsonbSerde;
 import org.acme.beans.Product;
-import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.*;

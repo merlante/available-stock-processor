@@ -37,3 +37,7 @@ nb-configuration.xml
 
 # Local environment
 .env
+
+.odo/env
+.odo/odo-file-index.json
+devfile.yaml

@@ -67,6 +67,7 @@
     <dependency>
       <groupId>io.strimzi</groupId>
       <artifactId>kafka-oauth-client</artifactId>
+      <scope>runtime</scope>
       <version>0.7.1</version>
     </dependency>
     <dependency>

@@ -63,14 +63,16 @@ The application can be packaged using:
 ./mvnw package
 ```
 It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
+
+The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+
 Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
 If you want to build an _über-jar_, execute the following command:
 ```shell script
 ./mvnw package -Dquarkus.package.type=uber-jar
 ```
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+The _über-jar_ is runnable using `java -jar target/available-stock-processor-<maven_version>-runner.jar`.
 
 ## Creating a native executable
 

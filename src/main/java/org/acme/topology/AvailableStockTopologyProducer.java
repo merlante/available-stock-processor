@@ -8,10 +8,7 @@ import org.acme.beans.Product;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
 import org.apache.kafka.streams.*;
-import org.apache.kafka.streams.kstream.Consumed;
-import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
-import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueStore;
 
 @ApplicationScoped
@@ -19,6 +16,7 @@ public class AvailableStockTopologyProducer {
 
     public static final String STOCK_LEVELS_TOPIC = "stock-levels";
     public static final String RESERVED_STOCK_TOPIC = "reserved-stock";
+    public static final String AVAILABLE_STOCK_TOPIC = "available-stock";
 
     public static final String STOCK_AVAILABLE_KEYSTORE = "stockAvailableKeystore";
 
@@ -37,12 +35,17 @@ public class AvailableStockTopologyProducer {
 
         final KTable<Product, Integer> stockReserved = stockReservations.groupByKey().reduce(Integer::sum);
 
-        stockLevels.leftJoin(
+        // Choice of retrieving available stock synchronously from state store by query or
+        // asynchronously by consuming the available-stock changelog topic.
+
+        final KTable<Product,Integer> availableStock = stockLevels.leftJoin(
                 stockReserved,
                 (level, reserved) -> level - (reserved != null ? reserved : 0),
                 Materialized.<Product, Integer, KeyValueStore<Bytes, byte[]>>as(STOCK_AVAILABLE_KEYSTORE)
                         .withKeySerde(productSerde)
                         .withValueSerde(Serdes.Integer()));
+
+        availableStock.toStream().to(AVAILABLE_STOCK_TOPIC, Produced.with(productSerde, Serdes.Integer()));
 
         return builder.build();
     }
